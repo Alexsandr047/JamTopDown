@@ -46,8 +46,11 @@ void APowerApp::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Othe
             }
         }
         if (bInteract) {
-            if (OtherActor->GetClass()->ImplementsInterface(UCharacterInterface::StaticClass())) {
-                Interact();
+            if (bUseInteract) {
+                if (OtherActor->GetClass()->ImplementsInterface(UCharacterInterface::StaticClass())) {
+                    bUseInteract = false;
+                    Interact();
+                }
             }
         }
         

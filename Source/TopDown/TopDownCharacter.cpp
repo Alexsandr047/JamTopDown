@@ -69,6 +69,10 @@ ATopDownCharacter::ATopDownCharacter()
 	PlayerHealth = 100.f;
 }
 
+void ATopDownCharacter::SetHealth() {
+	HealthComponent->SetParams(PlayerHealth);
+}
+
 // Called when the game starts or when spawned
 void ATopDownCharacter::BeginPlay() {
 	Super::BeginPlay();
@@ -85,6 +89,8 @@ void ATopDownCharacter::BeginPlay() {
 
 	//HealthComp
 	HealthComponent->OnHealthChanged.AddDynamic(this, &ATopDownCharacter::OnHealthChanged);
+
+	GetWorldTimerManager().SetTimer(TimerHandle_TimeSetHealth, this, &ATopDownCharacter::SetHealth, 0.2f, false);
 	HealthComponent->SetParams(PlayerHealth);
 }
 

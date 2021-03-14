@@ -24,10 +24,11 @@ public:
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-	UPROPERTY(EditDefaultsOnly, Category = "HealApp")
+	UPROPERTY(EditDefaultsOnly, Category = "Interact")
 	bool bInteract;
 	UFUNCTION(BlueprintImplementableEvent)
 	void Interact();
+	bool bUseInteract;
 
 	UPROPERTY(EditDefaultsOnly, Category = "HealApp")
 	bool bHealApp;

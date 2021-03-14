@@ -35,6 +35,10 @@ void AEnemy::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 	}
 }
 
+void AEnemy::SetHealth() {
+	HealthComponent->SetParams(EnemyHealth);
+}
+
 // Called when the game starts or when spawned
 void AEnemy::BeginPlay()
 {
@@ -43,7 +47,9 @@ void AEnemy::BeginPlay()
 
 	//HealthComp
 	HealthComponent->OnHealthChanged.AddDynamic(this, &AEnemy::OnHealthChanged);
-	HealthComponent->SetParams(EnemyHealth);
+
+	GetWorldTimerManager().SetTimer(TimerHandle_TimeSetHealth, this, &AEnemy::SetHealth, 0.2f, false);
+	
 }
 
 
@@ -55,7 +61,7 @@ void AEnemy::OnHealthChanged(UHealthComponent* HealthComp, float Health, float H
 		DetachFromControllerPendingDestroy();
 
 		SetLifeSpan(0.1f);
-
+		//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Bot health: %s"), Health));
 		UE_LOG(LogTemp, Warning, TEXT("dead"));
 		//GetMovementComponent()->StopMovementImmediately();
 		//GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);

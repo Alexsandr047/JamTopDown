@@ -13,6 +13,7 @@ UHealthComponent::UHealthComponent()
 }
 void UHealthComponent::SetParams(float fHealth) {
 	DefaultHealth = fHealth;
+	Health = DefaultHealth;
 }
 
 
@@ -31,9 +32,9 @@ void UHealthComponent::HandleTakePointDamage(AActor* DamagedActor, float Damage,
 	if (Damage <= 0.0f || bIsDead) {
 		return;
 	}
-
-	Health = FMath::Clamp(Health - Damage, 0.0f, DefaultHealth);
 	bIsDead = Health <= 0.0f;
+	Health = FMath::Clamp(Health - Damage, 0.0f, DefaultHealth);
+	
 	UE_LOG(LogTemp, Log, TEXT("Health CHanget: %s"), *FString::SanitizeFloat(Health));
 	OnHealthChanged.Broadcast(this, Health, Damage, BoneName, DamageType, InstigatedBy, DamageCauser);
 }

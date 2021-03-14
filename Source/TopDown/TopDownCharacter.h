@@ -43,6 +43,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Targeting")
 	float GetHealth() const { return PlayerHealth; }
 
+	FTimerHandle TimerHandle_TimeSetHealth;
+	void SetHealth();
+
 private:
 
 	/** Top down camera */
