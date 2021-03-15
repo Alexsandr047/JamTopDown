@@ -19,6 +19,7 @@ ATorch::ATorch()
     CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComp"));
     CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");
     CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &ATorch::OnOverlapBegin);
+    CollisionComp->OnComponentEndOverlap.AddDynamic(this, &ATorch::OnOverlapEnd);
     CollisionComp->SetSimulatePhysics(false);
     CollisionComp->SetLinearDamping(0.0f);
     CollisionComp->SetEnableGravity(false);
@@ -52,11 +53,11 @@ void ATorch::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 void ATorch::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
     if ((OtherActor != NULL) && (OtherActor != this)) {
         if (OtherActor->GetClass()->ImplementsInterface(UCharacterInterface::StaticClass())) {
-            if (ATopDownCharacter* MyPawn = Cast<ATopDownCharacter>(OtherActor)) {
+            //if (ATopDownCharacter* MyPawn = Cast<ATopDownCharacter>(OtherActor)) {
                 UE_LOG(LogTemp, Warning, TEXT("TorchDiActivate"));
-                bOverLap = true;
+                bOverLap = false;
                 HidenWidget();
-            }
+           // }
 
         }
     }
