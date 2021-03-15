@@ -7,6 +7,7 @@
 #include "Components/BoxComponent.h"
 #include "TopDown/CharacterInterface.h"
 //#include "Components/CapsuleComponent.h
+ #include "GameFramework/CharacterMovementComponent.h"
 // Sets default values
 AEnemy::AEnemy()
 {
@@ -19,6 +20,9 @@ AEnemy::AEnemy()
 	InteractionObject = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
 	InteractionObject->SetupAttachment(RootComponent);
 	InteractionObject->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::OnOverlapBegin);
+
+	BaseSpeed = 300.f;
+	GetCharacterMovement()->MaxWalkSpeed = BaseSpeed;
 
 	EnemyHealth = 100.f;
 
@@ -37,6 +41,15 @@ void AEnemy::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 
 void AEnemy::SetHealth() {
 	HealthComponent->SetParams(EnemyHealth);
+}
+
+
+void AEnemy::StopMove() {
+	GetCharacterMovement()->MaxWalkSpeed = 0.f;
+}
+
+void AEnemy::GoMove() {
+	GetCharacterMovement()->MaxWalkSpeed = BaseSpeed;
 }
 
 // Called when the game starts or when spawned

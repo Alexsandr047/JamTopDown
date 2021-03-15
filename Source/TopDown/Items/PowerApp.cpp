@@ -15,7 +15,6 @@ APowerApp::APowerApp()
 
     CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComp"));
     CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");
-    //CollisionComp->OnComponentHit.AddDynamic(this, &APowerApp::Hit);
     CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &APowerApp::OnOverlapBegin);
     CollisionComp->SetSimulatePhysics(false);
     CollisionComp->SetLinearDamping(0.0f);
@@ -70,7 +69,7 @@ void APowerApp::OnDetanate() {
     FCollisionShape CollisionShape;
     CollisionShape.ShapeType = ECollisionShape::Sphere;
     CollisionShape.SetSphere(Radius);
-    DrawDebugSphere(GetWorld(), GetActorLocation(), CollisionShape.GetSphereRadius(), 50, FColor::Purple, true, 5);
+    DrawDebugSphere(GetWorld(), GetActorLocation(), CollisionShape.GetSphereRadius(), 50, FColor::Purple, true, 1.f);
     if (GetWorld()->SweepMultiByChannel(HitActors, StartTrace, StartTrace, FQuat::Identity,ECC_WorldStatic, CollisionShape)) {
         for (auto& Hit : HitActors) {
             if (!Hit.GetActor()->GetClass()->ImplementsInterface(UCharacterInterface::StaticClass())) {

@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "TopDown/Enemy/EnemyInterface.h"
 #include "Enemy.generated.h"
 
 class UHealthComponent;
 class UBoxComponent;
 
 UCLASS()
-class TOPDOWN_API AEnemy : public ACharacter
+class TOPDOWN_API AEnemy : public ACharacter, public IEnemyInterface
 {
 	GENERATED_BODY()
 
@@ -40,6 +41,14 @@ public:
 
 	FTimerHandle TimerHandle_TimeSetHealth;
 	void SetHealth();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	float BaseSpeed;
+
+	void StopMove();
+
+	void GoMove();
+
 
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
