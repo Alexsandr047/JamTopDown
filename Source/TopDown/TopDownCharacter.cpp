@@ -67,10 +67,15 @@ ATopDownCharacter::ATopDownCharacter()
 	WeaponAttachRightSocket = "WeaponSocket";
 
 	PlayerHealth = 100.f;
+
+	CurrentHealth = PlayerHealth;
 }
 
 void ATopDownCharacter::SetHealth() {
 	HealthComponent->SetParams(PlayerHealth);
+}
+void  ATopDownCharacter::Healing(float Healing) {
+	HealthComponent->Heal(Healing);
 }
 
 // Called when the game starts or when spawned
@@ -129,10 +134,12 @@ void ATopDownCharacter::StopSpeed() {
 }
 
 void ATopDownCharacter::OnHealthChanged(UHealthComponent* HealthComp, float Health, float HealthDelta, FName BoneName, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser) {
-	PlayerHealth = Health;
-	if (Health <= 0.0f && bDied) {
+	CurrentHealth = Health;
+	if (Health <= 0.0f) {
 		//Умер
 		bDied = true;
+
+		Died();
 
 		GetMovementComponent()->StopMovementImmediately();
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);

@@ -25,7 +25,7 @@ public:
 
 	float GetHealth() const { return Health; }
 
-	UFUNCTION(BlueprintCallable, Category = "SetParams")
+	UFUNCTION(BlueprintCallable, Category = "HealthComponent")
 	void SetParams(float fHealth);
 
 	UPROPERTY(BlueprintAssignable, Category = "HealthComponent")
@@ -33,6 +33,10 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "HealthComponent")
 	bool bIsDead;
+
+
+	UFUNCTION(BlueprintCallable, Category = "HealthComponent")
+	void Heal(float fHealAmount);
 protected:
 	UFUNCTION()
 	void HandleTakePointDamage(AActor* DamagedActor,

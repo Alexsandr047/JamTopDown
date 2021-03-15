@@ -34,9 +34,13 @@ void APowerApp::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Othe
         if (bHealApp) {
             if (OtherActor->GetClass()->ImplementsInterface(UCharacterInterface::StaticClass())) {
                 UE_LOG(LogTemp, Warning, TEXT("Heal"));
-                UGameplayStatics::ApplyPointDamage(OtherActor, BaseHeal * -1, OtherActor->GetActorLocation(), SweepResult, nullptr, this, DamageType);
-                GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are Healing: %s"), *OtherActor->GetName()));
-                OneHit();
+                if (ATopDownCharacter* MyPawn = Cast<ATopDownCharacter>(OtherActor)) {
+                    MyPawn->Healing(BaseHeal);
+                    GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are Healing: %s"), *OtherActor->GetName()));
+                    OneHit();
+                }
+                //UGameplayStatics::ApplyPointDamage(OtherActor, BaseHeal * -1, OtherActor->GetActorLocation(), SweepResult, nullptr, this, DamageType);
+               
             }          
         }
         if (bDetanate) {

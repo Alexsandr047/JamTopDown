@@ -35,6 +35,7 @@ public:
 	//Health компонент
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
 	float  PlayerHealth;
+	float  CurrentHealth;
 	UHealthComponent* HealthComponent;
 	UFUNCTION()
 	void OnHealthChanged(UHealthComponent* HealthComp, float Health, float HealthDelta, FName BoneName, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
@@ -43,8 +44,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Targeting")
 	float GetHealth() const { return PlayerHealth; }
 
+	UFUNCTION(BlueprintCallable, Category = "Targeting")
+	float GetCurrentHealthHealth() const { return CurrentHealth; }
+
 	FTimerHandle TimerHandle_TimeSetHealth;
 	void SetHealth();
+
+	UFUNCTION(BlueprintCallable, Category = "Targeting")
+	void Healing(float Healing);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void Died();
 
 private:
 

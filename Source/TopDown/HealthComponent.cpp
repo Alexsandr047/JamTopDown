@@ -17,6 +17,17 @@ void UHealthComponent::SetParams(float fHealth) {
 }
 
 
+void UHealthComponent::Heal(float fHealAmount) {
+	if (fHealAmount <= 0.f || Health <= 0.f) {
+		return;
+	}
+	Health = FMath::Clamp(Health + fHealAmount, 0.0f, DefaultHealth);
+
+	UE_LOG(LogTemp, Log, TEXT("Health CHanget: %s (+%s)"), *FString::SanitizeFloat(Health), *FString::SanitizeFloat(fHealAmount));
+	FName Bone = "Root";
+	OnHealthChanged.Broadcast(this, Health, -fHealAmount, Bone, nullptr, nullptr, nullptr);
+}
+
 // Called when the game starts
 void UHealthComponent::BeginPlay()
 {
