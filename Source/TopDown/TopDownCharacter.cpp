@@ -98,21 +98,32 @@ void ATopDownCharacter::BeginPlay() {
 	GetWorldTimerManager().SetTimer(TimerHandle_TimeSetHealth, this, &ATopDownCharacter::SetHealth, 0.2f, false);
 	HealthComponent->SetParams(PlayerHealth);
 }
-
+void ATopDownCharacter::SetBossFight(bool bBoss) {
+	bBossSpawn = bBoss;
+	if (bBoss) {
+		StopSpeed();
+	}
+	else {
+		WalkSpeed();
+		
+	}
+}
 void ATopDownCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
-
-	if (CursorToWorld != nullptr)
-	{
-		 if (APlayerController* PC = Cast<APlayerController>(GetController())){
-			FHitResult TraceHitResult;
-			PC->GetHitResultUnderCursor(ECC_Visibility, true, TraceHitResult);
-			FVector CursorFV = TraceHitResult.ImpactNormal;
-			FRotator CursorR = CursorFV.Rotation();
-			CursorToWorld->SetWorldLocation(TraceHitResult.Location);
-			CursorToWorld->SetWorldRotation(CursorR);
-			CursorLocation = TraceHitResult.ImpactNormal;
+	
+	if (!bBossSpawn) {
+		if (CursorToWorld != nullptr)
+		{
+			if (APlayerController* PC = Cast<APlayerController>(GetController())) {
+				FHitResult TraceHitResult;
+				PC->GetHitResultUnderCursor(ECC_Visibility, true, TraceHitResult);
+				FVector CursorFV = TraceHitResult.ImpactNormal;
+				FRotator CursorR = CursorFV.Rotation();
+				CursorToWorld->SetWorldLocation(TraceHitResult.Location);
+				CursorToWorld->SetWorldRotation(CursorR);
+				CursorLocation = TraceHitResult.ImpactNormal;
+			}
 		}
 	}
 }
@@ -120,6 +131,7 @@ void ATopDownCharacter::Tick(float DeltaSeconds)
 
 void ATopDownCharacter::StartFire() {
 	BaseWeapon->StartFire();
+	Attack();
 }
 
 void ATopDownCharacter::StopFire() {

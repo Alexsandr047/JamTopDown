@@ -35,6 +35,7 @@ void AEnemy::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 			UGameplayStatics::ApplyPointDamage(OtherActor, BaseDamage, OtherActor->GetActorLocation(), SweepResult, nullptr, this, EnemyDamageType);
 			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Purple, FString::Printf(TEXT("You are hitting: %s"), *SweepResult.GetActor()->GetName()));
 			UE_LOG(LogTemp, Warning, TEXT("HitPlayer"));
+			Attack();
 		}
 	}
 }

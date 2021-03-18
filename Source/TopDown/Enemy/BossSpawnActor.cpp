@@ -4,6 +4,7 @@
 #include "TopDown/Enemy/BossSpawnActor.h"
 #include "TopDown/Enemy/Enemy.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "TopDown/TopDownCharacter.h"
 
 // Sets default values
 ABossSpawnActor::ABossSpawnActor()
@@ -39,6 +40,20 @@ void  ABossSpawnActor::AllEnemyStop() {
 			}
 		//}
 	}
+	TSubclassOf<ATopDownCharacter> ClassToPlayer;
+	ClassToPlayer = ATopDownCharacter::StaticClass();
+	TArray<AActor*> FoundActorsPlayers;
+	//UE_LOG(LogTemp, Warning, TEXT("StopPlayerStart"));
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToPlayer, FoundActorsPlayers);
+	for (auto& Player : FoundActorsPlayers) {
+		//if (Enemy->GetClass()->ImplementsInterface(UEnemyInterface::StaticClass())) {
+		if (ATopDownCharacter* CurPlayer = Cast<ATopDownCharacter>(Player)) {
+			CurPlayer->SetBossFight(true);
+			UE_LOG(LogTemp, Warning, TEXT("StopPlayer"));
+		}
+		//}
+	}
+
 }
 void  ABossSpawnActor::AllEnemyGo() {
 	TSubclassOf<AEnemy> ClassToFind;
@@ -51,6 +66,19 @@ void  ABossSpawnActor::AllEnemyGo() {
 				CurrEnemy->GoMove();
 				UE_LOG(LogTemp, Warning, TEXT("GoEnemy"));
 			}
+		//}
+	}
+	TSubclassOf<ATopDownCharacter> ClassToPlayer;
+	ClassToPlayer = ATopDownCharacter::StaticClass();
+	TArray<AActor*> FoundActorsPlayers;
+	//UE_LOG(LogTemp, Warning, TEXT("StopPlayerStart"));
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToPlayer, FoundActorsPlayers);
+	for (auto& Player : FoundActorsPlayers) {
+		//if (Enemy->GetClass()->ImplementsInterface(UEnemyInterface::StaticClass())) {
+		if (ATopDownCharacter* CurPlayer = Cast<ATopDownCharacter>(Player)) {
+			CurPlayer->SetBossFight(false);
+			UE_LOG(LogTemp, Warning, TEXT("StartPlayer"));
+		}
 		//}
 	}
 }

@@ -56,6 +56,14 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void Died();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void Attack();
+
+	bool bBossSpawn;
+
+	void SetBossFight(bool bBoss);
+
+
 private:
 
 	/** Top down camera */
